@@ -1,12 +1,10 @@
 package cn.sogoucloud.plugin.security;
 
 import java.util.Set;
-
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 
 public class SogouSecurityPlugin implements ServletContainerInitializer{

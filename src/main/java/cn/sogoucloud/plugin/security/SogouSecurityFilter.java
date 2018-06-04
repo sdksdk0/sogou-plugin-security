@@ -45,8 +45,8 @@ public class SogouSecurityFilter extends ShiroFilter{
 	    }
 
 	    private void addJdbcRealm(Set<Realm> realms) {
-	        SogouJdbcRealm smartJdbcRealm = new SogouJdbcRealm();
-	        realms.add(smartJdbcRealm);
+	        SogouJdbcRealm sogouJdbcRealm = new SogouJdbcRealm();
+	        realms.add(sogouJdbcRealm);
 	    }
 
 	    private void addCustomRealm(Set<Realm> realms) {

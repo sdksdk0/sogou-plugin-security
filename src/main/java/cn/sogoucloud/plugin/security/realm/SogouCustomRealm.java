@@ -7,7 +7,6 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authc.credential.Md5CredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -17,6 +16,7 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 
 import cn.sogoucloud.plugin.security.SecurityConstant;
 import cn.sogoucloud.plugin.security.SogouSecurity;
+import cn.sogoucloud.plugin.security.password.Md5CredentialsMatcher;
 
 
 /**
@@ -27,10 +27,10 @@ import cn.sogoucloud.plugin.security.SogouSecurity;
  */
 public class SogouCustomRealm extends AuthorizingRealm {
 
-    private final SogouSecurity smartSecurity;
+    private final SogouSecurity sogouSecurity;
 
-    public SogouCustomRealm(SogouSecurity smartSecurity) {
-        this.smartSecurity = smartSecurity;
+    public SogouCustomRealm(SogouSecurity sogouSecurity) {
+        this.sogouSecurity = sogouSecurity;
         super.setName(SecurityConstant.REALMS_CUSTOM);
         super.setCredentialsMatcher(new Md5CredentialsMatcher());
     }
@@ -43,7 +43,7 @@ public class SogouCustomRealm extends AuthorizingRealm {
 
         String username = ((UsernamePasswordToken) token).getUsername();
 
-        String password = smartSecurity.getPassword(username);
+        String password = sogouSecurity.getPassword(username);
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo();
         authenticationInfo.setPrincipals(new SimplePrincipalCollection(username, super.getName()));
@@ -59,12 +59,12 @@ public class SogouCustomRealm extends AuthorizingRealm {
 
         String username = (String) super.getAvailablePrincipal(principals);
 
-        Set<String> roleNameSet = smartSecurity.getRoleNameSet(username);
+        Set<String> roleNameSet = sogouSecurity.getRoleNameSet(username);
 
         Set<String> permissionNameSet = new HashSet<String>();
         if (roleNameSet != null && roleNameSet.size() > 0) {
             for (String roleName : roleNameSet) {
-                Set<String> currentPermissionNameSet = smartSecurity.getPermissionNameSet(roleName);
+                Set<String> currentPermissionNameSet = sogouSecurity.getPermissionNameSet(roleName);
                 permissionNameSet.addAll(currentPermissionNameSet);
             }
         }
