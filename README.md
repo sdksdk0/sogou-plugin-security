@@ -1,1 +1,0 @@
-# sogou-plugin-security
